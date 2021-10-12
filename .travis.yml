@@ -9,5 +9,9 @@ script:
 deploy:
   provider: heroku
   api_key:
-  app:
+    secure: Hz7qeZl07nRXjgz8EuVFHt1qoNIntygHgkaEKdqUudndA7gJdQu/8SFUjmMBhs9NuO+Dv8rvTtsN/JV+9u9i+cs2GgnQHLrYKQgKL6Fw7niQNJEFOydv/5wHwrgr2zZ7YBFb2Rvo75KnZ7Ti3wUfb+FrHjU6xdaDYOOHU0Lc+5M6jmhR+hD5Wc67VA1ggNN4AZKxKF41xgVpcFQJuJ4QZUO4OX/tBDmG88+/WuqoOzKFec5lzDh1KTpVQUkbh95rxtbzV/AXBOxFdJgC+3j/G7UorThMnXd1uHBe7yuPNj3wzH18kSsdmV4+ZL7+TUvp9OyCiv8JYw4a+Poy+ck4FqC/laYwUc/ZJGEv0Is76qeaBHx6NoDhjMCbbOLLhVG3Ohib5i4fD3JtxIlzfLGWLeZFO3P6b5SSU5cc7XqbDSVpICaEBEl6kFsktx+IPvrC+8mAylwqxrb49y6tLauJrxyTVOhbs6QOEiAk0+I7Wk6thDtmYtOXAL7TV/Z2cMpG/3WxGyh8hbzHTo1QqRLt0EZNlSs2vvk9Zzm5U/3knZzW+1Z+6EdpL6nEynaP63p2JzV+YAh4vMBbLBKkKxH92mxc7viqVesmjrDqrQX/bguLfsUfxP+qnQBX+jgx5Pm0UoyYcppaHy5JqVx2Nd7RNU2+ZwQI2RKE9Wc0V7RaFuo=
+  app: dry-caverns-51920
+  on:
+    repo: michaelpmattson/viewing_party
+    branch: main
   run: rails db:migrate
