@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def create
     new_user = User.create(user_params)
-    redirect_to dashboard_index_path
+    redirect_to dashboard_path
   end
 
 
