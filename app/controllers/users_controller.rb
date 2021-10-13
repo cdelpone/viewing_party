@@ -4,8 +4,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    new_user = User.create(user_params)
-    redirect_to dashboard_path
+    new_user = User.new(user_params)
+    if new_user.save
+      session[:user_id] = new_user.id
+      redirect_to dashboard_path
+    else
+      flash[:error] = "There's an issue with your information."
+      redirect_to new_user_path
+    end
   end
 
 
