@@ -4,5 +4,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
-  resources :dashboard, only: :index
+  get '/dashboard', to: 'dashboard#index', as: 'dashboard'
+
+  post '/', to: 'sessions#create'
 end
