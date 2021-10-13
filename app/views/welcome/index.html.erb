@@ -1,0 +1,13 @@
+<h1>Welcome to Viewing Party!</h1>
+
+<p>Viewing Party allows you to explore movies and create a viewing party event for you and your friends to watch a movie together.</p>
+
+  <%= form_with model: @user, local:true do |f| %>
+    <%= f.label "Email" %>
+    <%= f.email_field :email %><br>
+    <%= f.label "Password" %>
+    <%= f.password_field :password %><br>
+    <%= f.submit "Sign In" %>
+  <%end%>
+
+<%= link_to "New to Viewing Party? Register Here", new_user_path %>
