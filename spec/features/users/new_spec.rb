@@ -12,7 +12,6 @@ RSpec.describe 'Users New' do
     fill_in 'user[password]', with: password
     fill_in 'user[password_confirmation]', with: password
     click_button "Create Account"
-    # expect(page).to have_content("Welcome, #{email}!")
     expect(current_path).to eq(dashboard_path)
   end
 
