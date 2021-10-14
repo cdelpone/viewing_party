@@ -24,6 +24,16 @@ RSpec.describe 'Users New' do
      click_button "Create Account"
      expect(current_path).to eq(new_user_path)
      expect(page).to have_content("There's an issue with your information.")
+   end
 
+   it 'is case insensitive' do
+     email = "EXAMPLE@email.com"
+     password = "Test"
+     fill_in 'user[email]', with: email
+     fill_in 'user[password]', with: password
+     fill_in 'user[password_confirmation]', with: password
+     click_button "Create Account"
+     expect(page).to     have_content("example@email.com")
+     expect(page).to_not have_content("EXAMPLE@email.com")
    end
 end

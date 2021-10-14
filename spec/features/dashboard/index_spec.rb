@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'dashboard' do
-  it 'is not accessible without logging in' do
-    visit dashboard_path
+  describe 'invalid user' do
+    before(:each) do
+      visit dashboard_path
+    end
 
-    expect(current_path).to eq(root_path)
-    expect(page).to have_content("You shall not pass")
+    it 'is not accessible without logging in' do
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You shall not pass")
+    end
   end
 
   describe 'valid user' do
@@ -16,21 +20,22 @@ RSpec.describe 'dashboard' do
 
       visit dashboard_path
     end
+
     it 'welcomes a user' do
       expect(page).to have_content("Welcome, #{@user.email}!")
     end
 
     it 'has a discover movies button' do
       expect(page).to have_button("Discover Movies")
-      # click_button "Discover Movies"
-      # expect(current_path).to eq(discover_path)
+      click_button "Discover Movies"
+      expect(current_path).to eq(discover_path)
     end
 
     it 'has sections for friends and parties' do
       within '#friends' do
         expect(page).to have_content('Friends')
       end
-      
+
       within '#parties' do
         expect(page).to have_content('Parties')
       end
