@@ -9,8 +9,11 @@ class User < ApplicationRecord
 
   has_secure_password
 
-
   def self.search_by_email(email)
     where(email: email).first
+  end
+
+  def friends
+    friendships.friends
   end
 end
