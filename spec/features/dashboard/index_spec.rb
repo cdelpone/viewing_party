@@ -26,8 +26,14 @@ RSpec.describe 'dashboard' do
       # expect(current_path).to eq(discover_path)
     end
 
-    it 'has sections' do
+    it 'has sections for friends and parties' do
+      within '#friends' do
+        expect(page).to have_content('Friends')
+      end
       
+      within '#parties' do
+        expect(page).to have_content('Parties')
+      end
     end
   end
 end
