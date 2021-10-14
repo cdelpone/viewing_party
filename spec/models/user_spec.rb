@@ -25,5 +25,21 @@ RSpec.describe User, type: :model do
         expect(user).to eq(python)
       end
     end
+
+    describe 'friends' do
+      it 'can collect friends' do
+        user  = User.create!(email: "user@usermail.com", password: "coffee", password_confirmation: "coffee")
+        python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+        java   = User.create!(email: "java@javamail.com", password: "banana", password_confirmation: "banana")
+        ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+
+        user.friendships.create(friend: python)
+        user.friendships.create(friend: java)
+
+        expected = [python, java]
+
+        expect(user.friends).to eq(expected)
+      end
+    end
   end
 end
