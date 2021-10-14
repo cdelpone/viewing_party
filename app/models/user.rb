@@ -8,4 +8,9 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
 
   has_secure_password
+
+
+  def self.search_by_email(email)
+    where(email: email).first
+  end
 end
