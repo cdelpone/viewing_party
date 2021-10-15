@@ -40,5 +40,71 @@ RSpec.describe 'dashboard' do
         expect(page).to have_content('Parties')
       end
     end
+
+    it 'can add a friend' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      java   = User.create!(email: "java@javamail.com", password: "banana", password_confirmation: "banana")
+      ruby = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+
+      within '#friends' do
+        fill_in('email', with: python.email)
+        click_button('Add Friend')
+      end
+
+      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_content(python.email)
+    end
+
+    it 'does not add friends with bad emails' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      java   = User.create!(email: "java@javamail.com", password: "banana", password_confirmation: "banana")
+      ruby = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+
+      within '#friends' do
+        fill_in('email', with: 'banana')
+        click_button('Add Friend')
+      end
+
+      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_content("Sorry, that's an imaginary friend.")
+    end
+
+    it 'has a message when there are no friends' do
+      within '#friends' do
+        expect(page).to have_content("You don't have any friends.")
+      end
+    end
+
+    it 'lists existing friends' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      java   = User.create!(email: "java@javamail.com", password: "banana", password_confirmation: "banana")
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+
+      @user.friendships.create!(friend: python)
+      @user.friendships.create!(friend: java)
+      @user.friendships.create!(friend: ruby)
+
+      visit current_path
+
+      within '#friends' do
+        expect(page).to have_content(python.email)
+        expect(page).to have_content("java@javamail.com")
+      end
+    end
+
+    it 'cant add the same friend twice' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+
+      @user.friendships.create!(friend: python)
+
+      visit current_path
+
+      within '#friends' do
+        fill_in('email', with: python.email)
+        click_button('Add Friend')
+      end
+      expect(page).to have_content("Ya'll are already friends.")
+    end
   end
 end
