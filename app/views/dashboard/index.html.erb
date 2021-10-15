@@ -4,6 +4,19 @@
 
 <section id='friends'>
   <h4>Friends</h4>
+  <%= form_with url: dashboard_path, method: :get, local: true do |f| %>
+    <%= f.label :email %><br>
+    <%= f.email_field :email, placeholder: "Friend's Email" %>
+    <%= f.submit "Add Friend" %>
+  <% end %>
+
+  <% if current_user.friends.empty? %>
+    <%= "You don't have any friends." %>
+  <% else %>
+    <% current_user.friends.each do |f| %>
+      <%= f.email %>
+    <% end %>
+  <% end %>
 </section>
 
 <section id='parties'>
