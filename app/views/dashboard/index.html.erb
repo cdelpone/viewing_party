@@ -21,4 +21,11 @@
 
 <section id='parties'>
   <h4>Parties</h4>
+  <% current_user.parties.each do |party| %>
+    <%= link_to party.movie_title %><br>
+    <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %>
+    <% if party.host?(current_user) %>
+      <%= "Hosting" %>
+    <% end %>
+  <% end %>
 </section>

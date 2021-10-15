@@ -106,5 +106,23 @@ RSpec.describe 'dashboard' do
       end
       expect(page).to have_content("Ya'll are already friends.")
     end
+
+    it 'Shows all the details of a users parties' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+      @user.friendships.create!(friend: python)
+      @user.friendships.create!(friend: ruby)
+      party1 = @user.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1 )
+      python.attendees.create!(party: party1, role: 1 )
+      ruby.attendees.create!(party: party1, role: 1 )
+      allow(party1).to receive(:movie_title).and_return("Star Wars")
+      visit current_path
+      within '#parties' do
+        expect(page).to have_link("Star Wars")
+        expect(page).to have_content("Tuesday, January 2, 2018 at 04:30AM")
+        expect(page).to have_content("Hosting")
+        expect(page).to have_content("Invited: #{python.email} #{ruby.email}")
+      end
+    end
   end
 end
