@@ -104,6 +104,7 @@ RSpec.describe 'dashboard' do
         fill_in('email', with: python.email)
         click_button('Add Friend')
       end
+
       expect(page).to have_content("Ya'll are already friends.")
     end
 
@@ -115,13 +116,18 @@ RSpec.describe 'dashboard' do
       party1 = @user.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1 )
       python.attendees.create!(party: party1, role: 1 )
       ruby.attendees.create!(party: party1, role: 1 )
+
       allow(party1).to receive(:movie_title).and_return("Star Wars")
+
       visit current_path
+
       within '#parties' do
         expect(page).to have_link("Star Wars")
         expect(page).to have_content("Tuesday, January 2, 2018 at 04:30AM")
         expect(page).to have_content("Hosting")
-        expect(page).to have_content("Invited: #{python.email} #{ruby.email}")
+        expect(page).to have_content("Invited:")
+        expect(page).to have_content(python.email)
+        expect(page).to have_content(ruby.email)
       end
     end
   end

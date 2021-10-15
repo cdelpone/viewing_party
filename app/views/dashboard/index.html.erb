@@ -23,9 +23,15 @@
   <h4>Parties</h4>
   <% current_user.parties.each do |party| %>
     <%= link_to party.movie_title %><br>
-    <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %>
+    <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br>
     <% if party.host?(current_user) %>
-      <%= "Hosting" %>
+      <%= "Hosting" %><br>
     <% end %>
+    Invited:
+    <ul>
+      <% party.invited_guests.each do |guest| %>
+        <li><%= guest.email %></li>
+      <% end %>
+    </ul>
   <% end %>
 </section>
