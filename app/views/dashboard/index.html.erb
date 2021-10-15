@@ -22,16 +22,23 @@
 <section id='parties'>
   <h4>Parties</h4>
   <% current_user.parties.each do |party| %>
+    <%# <% require "pry"; binding.pry %> %>
     <%= link_to party.movie_title %><br>
     <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br>
     <% if party.host?(current_user) %>
-      <%= "Hosting" %><br>
-    <% end %>
-    Invited:
-    <ul>
+        <%= "Hosting" %><br><br>
+        Invited:<br>
+          <% party.invited_guests.each do |guest| %>
+            <%= guest.email %><br>
+          <% end %>
+    <% else %>
       <% party.invited_guests.each do |guest| %>
-        <li><%= guest.email %></li>
+        <% if guest.email == current_user.email %>
+          <strong><%= guest.email %></strong><br>
+        <% else %>
+          <%= guest.email %><br>
+        <% end  %>
       <% end %>
-    </ul>
+    <% end %>
   <% end %>
 </section>

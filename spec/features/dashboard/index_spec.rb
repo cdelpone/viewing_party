@@ -121,6 +121,7 @@ RSpec.describe 'dashboard' do
 
       visit current_path
 
+
       within '#parties' do
         expect(page).to have_link("Star Wars")
         expect(page).to have_content("Tuesday, January 2, 2018 at 04:30AM")
@@ -130,5 +131,31 @@ RSpec.describe 'dashboard' do
         expect(page).to have_content(ruby.email)
       end
     end
+
+    it 'shows the users name in bold for events they are not hosting' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+      ruby.friendships.create!(friend: @user)
+      ruby.friendships.create!(friend: python)
+      party1 = ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1 )
+      @user.attendees.create!(party: party1, role: 1 )
+      python.attendees.create!(party: party1, role: 1 )
+
+
+      @user.parties.reload
+      ruby.parties.reload
+      python.parties.reload
+
+      allow(party1).to receive(:movie_title).and_return("Star Wars")
+      # require "pry"; binding.pry
+      visit current_path
+
+
+      within '#parties' do
+        expect(page).to have_link("Star Wars")
+        expect(page).to have_selector('strong', text: @user.email)
+      end
+    end
+
   end
 end
