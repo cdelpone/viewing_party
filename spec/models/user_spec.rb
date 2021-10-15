@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   describe 'relationships' do
     it { should have_many(:friendships) }
     it { should have_many(:attendees) }
+    it { should have_many(:friends).through(:friendships)}
     it { should have_many(:parties).through(:attendees)}
   end
 
@@ -36,9 +37,14 @@ RSpec.describe User, type: :model do
         user.friendships.create(friend: python)
         user.friendships.create(friend: java)
 
-        expected = [python, java]
+        python.friendships.create(friend: user)
 
-        expect(user.friends).to eq(expected)
+        ruby.friendships.create(friend: user)
+        ruby.friendships.create(friend: java)
+
+        expect(user.friends).to eq([python, java])
+        expect(python.friends).to eq([user])
+        expect(ruby.friends).to eq([user, java])
       end
     end
   end
