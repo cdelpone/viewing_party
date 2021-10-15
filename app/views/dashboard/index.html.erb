@@ -14,7 +14,7 @@
     <%= "You don't have any friends." %>
   <% else %>
     <% current_user.friends.each do |f| %>
-      <%= f.email %>
+      <%= f.email %><br>
     <% end %>
   <% end %>
 </section>
@@ -22,23 +22,22 @@
 <section id='parties'>
   <h4>Parties</h4>
   <% current_user.parties.each do |party| %>
-    <%# <% require "pry"; binding.pry %> %>
-    <%= link_to party.movie_title %><br>
-    <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br>
-    <% if party.host?(current_user) %>
-        <%= "Hosting" %><br><br>
-        Invited:<br>
-          <% party.invited_guests.each do |guest| %>
-            <%= guest.email %><br>
-          <% end %>
-    <% else %>
+    <div class=<%"party-#{party.id}"%>>
+      <%= link_to party.movie_title %><br>
+      <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br><br>
+      <% if party.host?(current_user) %>
+        Hosting<br><br>
+      <% else %>
+        Host: <%= party.host_email %><br><br>
+      <% end %>
+      Attending:<br>
       <% party.invited_guests.each do |guest| %>
-        <% if guest.email == current_user.email %>
+        <% if current_user.email == guest.email %>
           <strong><%= guest.email %></strong><br>
         <% else %>
           <%= guest.email %><br>
-        <% end  %>
-      <% end %>
-    <% end %>
+        <% end %>
+      <% end %><br>
+    </div>
   <% end %>
 </section>

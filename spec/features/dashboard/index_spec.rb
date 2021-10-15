@@ -113,20 +113,21 @@ RSpec.describe 'dashboard' do
       ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
       @user.friendships.create!(friend: python)
       @user.friendships.create!(friend: ruby)
-      party1 = @user.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1 )
+      ruby.friendships.create!(friend: @user)
+      party1 = @user.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars"  )
+      party2 = ruby.parties.create!(date: "2018-02-02 04:30:00 UST", movie_id: 2, movie_title: "Guardians of the Galaxy"  )
       python.attendees.create!(party: party1, role: 1 )
       ruby.attendees.create!(party: party1, role: 1 )
+      @user.attendees.create!(party: party2, role: 1 )
 
-      allow(party1).to receive(:movie_title).and_return("Star Wars")
-
+      # @user.reload
       visit current_path
-
 
       within '#parties' do
         expect(page).to have_link("Star Wars")
         expect(page).to have_content("Tuesday, January 2, 2018 at 04:30AM")
         expect(page).to have_content("Hosting")
-        expect(page).to have_content("Invited:")
+        expect(page).to have_content("Attending:")
         expect(page).to have_content(python.email)
         expect(page).to have_content(ruby.email)
       end
@@ -137,25 +138,38 @@ RSpec.describe 'dashboard' do
       ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
       ruby.friendships.create!(friend: @user)
       ruby.friendships.create!(friend: python)
-      party1 = ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1 )
+      party1 = ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars" )
       @user.attendees.create!(party: party1, role: 1 )
       python.attendees.create!(party: party1, role: 1 )
 
-
       @user.parties.reload
-      ruby.parties.reload
-      python.parties.reload
-
-      allow(party1).to receive(:movie_title).and_return("Star Wars")
-      # require "pry"; binding.pry
       visit current_path
 
-
       within '#parties' do
+        expect(page).to_not have_content("Hosting")
+        expect(page).to have_content("Host: #{ruby.email}")
+        expect(page).to have_content("Attending:")
+        expect(page).to have_content("Tuesday, January 2, 2018 at 04:30AM")
         expect(page).to have_link("Star Wars")
         expect(page).to have_selector('strong', text: @user.email)
+        expect(page).to have_content(python.email)
       end
     end
 
+    it 'does not show parties that I am not invited to' do
+      python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+      ruby.friendships.create!(friend: @user)
+      ruby.friendships.create!(friend: python)
+      party1 = ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars" )
+      python.attendees.create!(party: party1, role: 1 )
+
+      # @user.parties.reload
+      visit current_path
+
+      within '#parties' do
+        expect(page).to_not have_content(party1.movie_title)
+      end
+    end
   end
 end
