@@ -13,12 +13,30 @@ class MoviesService
   end
 
   def top_40_movies
-    movie_data_page_1 = get_data('movie/top_rated')
-    movie_data_page_2 = get_data('movie/top_rated?page=2')
-    results = movie_data_page_1[:results]
-    movie_data_page_2[:results].each do |result|
+    parsed_movie_data_page_1 = get_data('movie/top_rated')
+    parsed_movie_data_page_2 = get_data('movie/top_rated?page=2')
+    results = parsed_movie_data_page_1[:results]
+
+    parsed_movie_data_page_2[:results].each do |result|
       results << result
     end
-    results
+
+    results.map do |data|
+      Movie.new(data)
+    end
+  end
+
+  def find_by_title(title)
+    parsed_movie_data_page_1 = get_data("search/movie?query=#{title}")
+    parsed_movie_data_page_2 = get_data("search/movie?query=#{title}&page=2")
+    results = parsed_movie_data_page_1[:results]
+
+    parsed_movie_data_page_2[:results].each do |result|
+      results << result
+    end
+
+    results.map do |data|
+      Movie.new(data)
+    end
   end
 end
