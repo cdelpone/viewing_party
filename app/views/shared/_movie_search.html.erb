@@ -1,0 +1,5 @@
+<%= form_with model: @movie, method: :get, local: true do |f| %>
+  <%= f.label      :movie_title %>
+  <%= f.text_field :movie_title, placeholder: 'Search by Movie Title' %>
+  <%= f.submit     'Find Movies' %>
+<% end %>
