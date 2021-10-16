@@ -3,7 +3,14 @@ class MoviesController < ApplicationController
 
   def index
     movie_service = MoviesService.new
-    @movies = movie_service.top_40_movies
-    binding.pry
+    if params[:movie_title]
+      @movies = movie_service.find_by_title(params[:movie_title])
+    else
+      @movies = movie_service.top_40_movies
+    end
+  end
+
+  def show
+
   end
 end
