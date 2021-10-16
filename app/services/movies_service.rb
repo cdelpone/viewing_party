@@ -39,4 +39,9 @@ class MoviesService
       Movie.new(data)
     end
   end
+
+  def find_movie_by_id(id)
+    parsed_movie_data = get_data("movie/#{id}")
+    Movie.new(parsed_movie_data)
+  end
 end
