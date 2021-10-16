@@ -14,11 +14,30 @@
     <%= "You don't have any friends." %>
   <% else %>
     <% current_user.friends.each do |f| %>
-      <%= f.email %>
+      <%= f.email %><br>
     <% end %>
   <% end %>
 </section>
 
 <section id='parties'>
   <h4>Parties</h4>
+  <% current_user.parties.each do |party| %>
+    <div class=<%"party-#{party.id}"%>>
+      <%= link_to party.movie_title %><br>
+      <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br><br>
+      <% if party.host?(current_user) %>
+        Hosting<br><br>
+      <% else %>
+        Host: <%= party.host_email %><br><br>
+      <% end %>
+      Attending:<br>
+      <% party.invited_guests.each do |guest| %>
+        <% if current_user.email == guest.email %>
+          <strong><%= guest.email %></strong><br>
+        <% else %>
+          <%= guest.email %><br>
+        <% end %>
+      <% end %><br>
+    </div>
+  <% end %>
 </section>
