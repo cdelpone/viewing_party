@@ -1,14 +1,17 @@
 <h3><%= @movie_title %></h3>
-<%= form_with model:@party, local:true do |f| %>
-  <%= f.label :duration, 'Duration of Party'%>
+<%= form_with model: @party, local: true do |f| %>
+  <%= f.hidden_field :movie_id,      value: @movie_id %>
+  <%= f.hidden_field :movie_title,   value: @movie_title %>
+  <%= f.hidden_field :movie_runtime, value: @movie_runtime %>
+  <%= f.label        :duration, 'Duration of Party'%>
   <%= f.number_field :duration, value: @movie_runtime, min: @movie_runtime %><br>
-  <%= f.label :date, "Day" %>
-  <%= f.date_field :date %><br>
-  <%= f.label :time, "Start time" %>
-  <%= f.time_field :time %><br>
+  <%= f.label        :date, "Day" %>
+  <%= f.date_field   :date %><br>
+  <%= f.label        :time, "Start time" %>
+  <%= f.time_field   :time %><br>
   <% current_user.friends.each do |friend| %>
-    <%= f.check_box friend.id %>
-    <%= f.label :include, friend.email %><br>
+    <%= f.check_box  friend.id %>
+    <%= f.label      :include, friend.email %><br>
   <% end %><br>
   <%= f.submit %>
 <% end %>
