@@ -24,7 +24,7 @@
   <% current_user.parties.each do |party| %>
     <div class=<%"party-#{party.id}"%>>
       <%= link_to party.movie_title %><br>
-      <%= party.date.strftime("%A, %B %e, %Y at %I:%M%p") %><br><br>
+      <%= party.date.strftime("%A, %B %e, %Y") %> at <%= party.time.strftime("%I:%M%p") %><br><br>
       <% if party.host?(current_user) %>
         Hosting<br><br>
       <% else %>
