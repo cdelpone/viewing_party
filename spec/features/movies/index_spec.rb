@@ -41,6 +41,17 @@ RSpec.describe 'movies index', type: :feature do
       stub_request(:get, "https://api.themoviedb.org/3/movie/19404?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: movie_data, headers: {})
 
+      @credit_data = File.read('spec/fixtures/dilwale_credits.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/19404/credits?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: @credit_data, headers: {})
+
+      @reviews = File.read('spec/fixtures/dilwale_reviews.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/19404/reviews?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: @reviews, headers: {})
+
+
       visit movies_path
     end
 

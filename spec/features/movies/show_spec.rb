@@ -20,15 +20,20 @@ RSpec.describe 'movies show page' do
 
       @movie_data = File.read('spec/fixtures/guardians_info.json')
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/118540?api_key=#{ENV['movie_key']}").
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: @movie_data, headers: {})
 
       @credit_data = File.read('spec/fixtures/guardians_credits.json')
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/118540/credits?api_key=#{ENV['movie_key']}").
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/credits?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: @credit_data, headers: {})
 
-      visit(movie_path(118540))
+      @reviews = File.read('spec/fixtures/guardians_reviews.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: @reviews, headers: {})
+
+      visit(movie_path(118340))
     end
 
     it 'has a button to create a viewing party' do
@@ -45,11 +50,9 @@ RSpec.describe 'movies show page' do
       expect(page).to have_content("Action, Science Fiction, Adventure")
       expect(page).to have_content(parsed_data['overview'])
       expect(page).to have_content("Chris Pratt as Peter Quill / Star-Lord")
-
-      ##Count of total reviews
-      #movie/:id/reviews [:total_results]
-      ##Reviewer author and information
-      # [:results][:]
+      expect(page).to have_content("Author: Binawoo")
+      expect(page).to have_content("10 Reviews")
+      expect(page).to have_content("This movie was so AWESOME! I loved it all and i had a bad day before watching it but it turned it around. I love action packed movies and this was great.")
     end
   end
 
