@@ -12,3 +12,9 @@ Cast Members
     <li><%= member.name %> as <%= member.character %></li>
   <% end %>
 </ul>
+
+<%= @reviews.count %> Reviews<br>
+<% @reviews.each do |review| %>
+  Author: <%= review.author  %><br>
+          <%= review.content  %><br><br>
+<% end %>
