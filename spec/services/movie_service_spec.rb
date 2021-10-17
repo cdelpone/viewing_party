@@ -44,10 +44,6 @@ RSpec.describe 'movies api' do
     it 'can hit api' do
       expect(@movie_service.find_by_title("Fight Club")).to be_an(Array)
     end
-#
-#   it 'can return name and date from api' do
-#     expect(@movie_service.holiday_info.first[:name]).to eq("Columbus Day")
-#     expect(@movie_service.holiday_info.first[:date]).to eq("2021-10-11")
-#   end
+
 
 end

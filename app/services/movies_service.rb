@@ -39,4 +39,23 @@ class MoviesService
       Movie.new(data)
     end
   end
+
+  def find_movie_by_id(id)
+    parsed_movie_data = get_data("movie/#{id}")
+    Movie.new(parsed_movie_data)
+  end
+
+  def cast_by_id(id)
+    parsed_cast_data = get_data("movie/#{id}/credits")
+    parsed_cast_data[:cast].map do |member|
+      CastMember.new(member)
+    end.take(10)
+  end
+
+  def reviews_by_id(id)
+    parsed_review_data = get_data("movie/#{id}/reviews")
+    parsed_review_data[:results].map do |result|
+      Review.new(result)
+    end
+  end
 end
