@@ -114,13 +114,12 @@ RSpec.describe 'dashboard' do
       @user.friendships.create!(friend: python)
       @user.friendships.create!(friend: ruby)
       ruby.friendships.create!(friend: @user)
-      party1 = @user.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars"  )
-      party2 = ruby.parties.create!(date: "2018-02-02 04:30:00 UST", movie_id: 2, movie_title: "Guardians of the Galaxy"  )
+      party1 = @user.parties.create!(date: "2018-01-02", time: "04:30:00 UST", movie_id: 1, movie_title: "Star Wars"  )
+      party2 = ruby.parties.create!(date: "2018-02-02", time: "04:30:00 UST", movie_id: 2, movie_title: "Guardians of the Galaxy"  )
       python.attendees.create!(party: party1, role: 1 )
       ruby.attendees.create!(party: party1, role: 1 )
       @user.attendees.create!(party: party2, role: 1 )
 
-      # @user.reload
       visit current_path
 
       within '#parties' do
@@ -138,7 +137,7 @@ RSpec.describe 'dashboard' do
       ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
       ruby.friendships.create!(friend: @user)
       ruby.friendships.create!(friend: python)
-      party1 = ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars" )
+      party1 = ruby.parties.create!(date: "2018-01-02", time: "04:30:00 UST", movie_id: 1, movie_title: "Star Wars" )
       @user.attendees.create!(party: party1, role: 1 )
       python.attendees.create!(party: party1, role: 1 )
 
