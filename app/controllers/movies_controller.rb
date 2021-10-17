@@ -13,5 +13,6 @@ class MoviesController < ApplicationController
   def show
     movie_service = MoviesService.new
     @movie = movie_service.find_movie_by_id(params[:id])
+    @cast = movie_service.cast_by_id(params[:id])
   end
 end

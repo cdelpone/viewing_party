@@ -44,4 +44,11 @@ class MoviesService
     parsed_movie_data = get_data("movie/#{id}")
     Movie.new(parsed_movie_data)
   end
+
+  def cast_by_id(id)
+    parsed_cast_data = get_data("movie/#{id}/credits")
+    parsed_cast_data[:cast].map do |member|
+      CastMember.new(member)
+    end.take(10)
+  end
 end
