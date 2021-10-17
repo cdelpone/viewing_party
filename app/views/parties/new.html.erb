@@ -1,5 +1,5 @@
 <h3><%= @movie_title %></h3>
-<%= form_with model: @party, local: true do |f| %>
+<%= form_with url: parties_path, local: true, method: :post do |f| %>
   <%= f.hidden_field :movie_id,      value: @movie_id %>
   <%= f.hidden_field :movie_title,   value: @movie_title %>
   <%= f.hidden_field :movie_runtime, value: @movie_runtime %>
@@ -13,5 +13,5 @@
     <%= f.check_box  friend.id %>
     <%= f.label      :include, friend.email %><br>
   <% end %><br>
-  <%= f.submit %>
+  <%= f.submit "Create Party" %>
 <% end %>

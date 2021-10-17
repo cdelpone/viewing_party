@@ -50,20 +50,20 @@ RSpec.describe 'New Party Form' do
     end
 
     it 'has all appropriate fields' do
-      expect(page).to have_field('party[duration]', with: 121)
-      expect(page).to have_field('party[date]')
-      expect(page).to have_field('party[time]')
-      expect(page).to have_field("party[#{@python.id}]")
-      expect(page).to have_field("party[#{@yaml.id}]")
-      expect(page).to have_field("party[#{@java.id}]")
+      expect(page).to have_field(:duration, with: 121)
+      expect(page).to have_field(:date)
+      expect(page).to have_field(:time)
+      expect(page).to have_field("#{@python.id}")
+      expect(page).to have_field("#{@yaml.id}")
+      expect(page).to have_field("#{@java.id}")
     end
 
     it 'can make a party' do
-      fill_in('party[duration]', with: 180)
-      fill_in('party[date]', with: "2018-01-02")
-      fill_in('party[time]', with: "04:30:00 UST")
-      check("party[#{@python.id}]")
-      check("party[#{@yaml.id}]")
+      fill_in(:duration, with: 180)
+      fill_in(:date, with: "2018-01-02")
+      fill_in(:time, with: "04:30:00 UST")
+      check("#{@python.id}")
+      check("#{@yaml.id}")
       click_button("Create Party")
 
       expect(current_path).to eq(dashboard_path)
@@ -73,6 +73,19 @@ RSpec.describe 'New Party Form' do
       expect(page).to have_content("Attending:")
       expect(page).to have_content(@python.email)
       expect(page).to have_content(@yaml.email)
+    end
+
+    it 'does not allow for the date to be blank' do
+      fill_in(:duration, with: 180)
+      fill_in(:time, with: "04:30:00 UST")
+      check("#{@python.id}")
+      check("#{@yaml.id}")
+      click_button("Create Party")
+
+      expect(current_path).to eq(new_party_path)
+      expect(page).to have_content("Invalid input. Please try again.")
+      expect(page).to have_content(@movie_title)
+      expect(page).to have_field(:duration, with: 121)
     end
   end
 end
