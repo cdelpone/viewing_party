@@ -51,4 +51,11 @@ class MoviesService
       CastMember.new(member)
     end.take(10)
   end
+
+  def reviews_by_id(id)
+    parsed_review_data = get_data("movie/#{id}/reviews")
+    parsed_review_data[:results].map do |result|
+      Review.new(result)
+    end
+  end
 end
