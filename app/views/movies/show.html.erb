@@ -5,5 +5,10 @@
   <li>Runtime: <%= @movie.formatted_runtime %></li>
   <li>Genres: <%= @movie.genre_names.join(", ") %></li>
   <li>Overview: <%= @movie.overview %></li>
-
+</ul>
+Cast Members
+<ul>
+  <% @cast.each do |member| %>
+    <li><%= member.name %> as <%= member.character %></li>
+  <% end %>
 </ul>
