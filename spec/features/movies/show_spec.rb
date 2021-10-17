@@ -18,12 +18,17 @@ RSpec.describe 'movies show page' do
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-      @movie_data = File.read('spec/fixtures/dilwale_info.json')
+      @movie_data = File.read('spec/fixtures/guardians_info.json')
 
-      stub_request(:get, "https://api.themoviedb.org/3/movie/19404?api_key=#{ENV['movie_key']}").
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118540?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: @movie_data, headers: {})
 
-      visit(movie_path(19404))
+      @credit_data = File.read('spec/fixtures/guardians_credits.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118540/credits?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: @credit_data, headers: {})
+
+      visit(movie_path(118540))
     end
 
     it 'has a button to create a viewing party' do
@@ -33,15 +38,14 @@ RSpec.describe 'movies show page' do
 
     it 'has the movie info' do
       parsed_data = JSON.parse(@movie_data)
-      save_and_open_page
+
       expect(page).to have_content(parsed_data['title'])
       expect(page).to have_content(parsed_data['vote_average'])
-      expect(page).to have_content("3 hour(s) 10 minute(s)")
-      expect(page).to have_content("Comedy, Drama, Romance")
+      expect(page).to have_content("2 hour(s) 1 minute(s)")
+      expect(page).to have_content("Action, Science Fiction, Adventure")
       expect(page).to have_content(parsed_data['overview'])
+      expect(page).to have_content("Chris Pratt as Peter Quill / Star-Lord")
 
-      ##First ten cast members
-      #movie/:id/credits [:cast]
       ##Count of total reviews
       #movie/:id/reviews [:total_results]
       ##Reviewer author and information
