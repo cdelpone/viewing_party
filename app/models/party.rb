@@ -1,6 +1,9 @@
 class Party < ApplicationRecord
   has_many :attendees
 
+  validates_presence_of :date
+  validates_presence_of :time
+
   def host?(user)
     user == host
   end

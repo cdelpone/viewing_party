@@ -5,6 +5,11 @@ RSpec.describe Party, type: :model do
     it { should have_many(:attendees)}
   end
 
+  describe 'valiations' do
+    it { should validate_presence_of(:date) }
+    it { should validate_presence_of(:time) }
+  end
+
   describe 'instance methods' do
     before(:each) do
       @ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
@@ -12,7 +17,7 @@ RSpec.describe Party, type: :model do
       @python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
       @yaml = User.create!(email: "yaml@yamlmail.com", password: "yam", password_confirmation: "yam")
 
-      @sw = @ruby.parties.create!(date: "2018-01-02 04:30:00 UST", movie_id: 1, movie_title: "Star Wars")
+      @sw = @ruby.parties.create!(date: "2018-01-02", time: "04:30:00 UST", movie_id: 1, movie_title: "Star Wars")
     end
 
     describe '#host?(user)' do
