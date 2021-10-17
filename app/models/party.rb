@@ -19,4 +19,10 @@ class Party < ApplicationRecord
     User.joins(:attendees)
         .where(attendees: {role: 1})
   end
+
+  def invite_friends_by_ids(friend_ids)
+    friend_ids.each do |id|
+      attendees.create(user_id: id, role: 1)
+    end
+  end
 end
