@@ -24,6 +24,17 @@ RSpec.describe 'movies facade' do
 
     stub_request(:get, "https://api.themoviedb.org/3/movie/118340?api_key=#{ENV['movie_key']}").
     to_return(status: 200, body: movie_data, headers: {})
+
+    credit_data = File.read('spec/fixtures/guardians_credits.json')
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/118340/credits?api_key=#{ENV['movie_key']}").
+    to_return(status: 200, body: credit_data, headers: {})
+
+    reviews = File.read('spec/fixtures/guardians_reviews.json')
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
+    to_return(status: 200, body: reviews, headers: {})
+
   end
 
   it 'returns top 40 movies' do
@@ -40,4 +51,14 @@ RSpec.describe 'movies facade' do
     expect(MoviesFacade.find_movie_by_id(118340)).to be_a Movie
   end
 
+  it 'can return an array with the first ten cast members by movie id' do
+    expect(MoviesFacade.cast_by_id(118340)).to be_an(Array)
+    expect(MoviesFacade.cast_by_id(118340).count).to eq(10)
+    expect(MoviesFacade.cast_by_id(118340).first).to be_a CastMember
+  end
+
+  it 'can return an array with reviews by movie id' do
+    expect(MoviesFacade.reviews_by_id(118340)).to be_an(Array)
+    expect(MoviesFacade.reviews_by_id(118340).first).to be_a Review
+  end
 end
