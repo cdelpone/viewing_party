@@ -35,15 +35,4 @@ RSpec.describe 'movies api' do
       # url = "movies/top_rated"
       # expect(@movie_service.get_data("movies/top_rated")).to eq(@json_response_1)
     end
-
-    it 'returns top 40 movies' do
-      expect(@movie_service.top_40_movies).to be_an(Array)
-      expect(@movie_service.top_40_movies.count).to eq(40)
-    end
-
-    it 'can hit api' do
-      expect(@movie_service.find_by_title("Fight Club")).to be_an(Array)
-    end
-
-
 end

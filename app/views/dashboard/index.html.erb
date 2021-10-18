@@ -23,7 +23,7 @@
   <h4>Parties</h4>
   <% current_user.parties.each do |party| %>
     <div class=<%"party-#{party.id}"%>>
-      <%= link_to party.movie_title %><br>
+      <%= link_to party.movie_title, movie_path(party.movie_id) %><br>
       <%= party.date.strftime("%A, %B %e, %Y") %> at <%= party.time.strftime("%I:%M%p") %><br><br>
       <% if party.host?(current_user) %>
         Hosting<br><br>
