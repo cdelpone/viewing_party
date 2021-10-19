@@ -10,7 +10,7 @@ class Party < ApplicationRecord
 
   def host
     User.joins(:attendees)
-        .where(attendees: {role: 0})
+        .where(attendees: {role: 0, party_id: self.id})
         .first
   end
 
@@ -20,7 +20,7 @@ class Party < ApplicationRecord
 
   def invited_guests
     User.joins(:attendees)
-        .where(attendees: {role: 1})
+        .where(attendees: {role: 1, party_id: self.id})
   end
 
   def invite_friends_by_ids(friend_ids)
