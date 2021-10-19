@@ -15,4 +15,8 @@ RSpec.describe 'welcome page' do
     click_link("New to Viewing Party? Register Here")
     expect(current_path).to eq(new_user_path)
   end
+
+  it 'does not have log out button' do
+    expect(page).to_not have_button('Log Out')
+  end
 end
