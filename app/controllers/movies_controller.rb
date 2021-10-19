@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
   def index
     if params[:movie_title]
       @movies = MoviesFacade.find_by_title(params[:movie_title])
+    elsif params[:now_playing]
+      @movies = MoviesFacade.now_playing
     else
       @movies = MoviesFacade.top_40_movies
     end
@@ -13,5 +15,6 @@ class MoviesController < ApplicationController
     @movie = MoviesFacade.find_movie_by_id(params[:id])
     @cast = MoviesFacade.cast_by_id(params[:id])
     @reviews = MoviesFacade.reviews_by_id(params[:id])
+    @similar_movies = MoviesFacade.similar_movies(params[:id])
   end
 end

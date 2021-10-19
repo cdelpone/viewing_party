@@ -18,3 +18,8 @@ Cast Members
   Author: <%= review.author  %><br>
           <%= review.content  %><br><br>
 <% end %>
+
+Recommended Movies
+<% @similar_movies.each do |movie| %>
+  <%= link_to  movie.title, movie_path(movie.id) %><br>
+<% end %>
