@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-
   def new; end
 
   def create
@@ -8,8 +7,13 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to dashboard_path
     else
-      flash[:error] = "Sorry, your credentials are bad."
+      flash[:error] = 'Sorry, your credentials are bad.'
       redirect_to root_path
     end
+  end
+
+  def destroy
+    session.clear
+    redirect_to root_path
   end
 end

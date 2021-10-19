@@ -6,9 +6,10 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: 'dashboard#index', as: 'dashboard'
 
-  post '/', to: 'sessions#create'
+  post   '/',       to: 'sessions#create'
+  delete '/',       to: 'sessions#destroy', as: 'logout'
 
-  get '/discover', to: 'discover#index', as: 'discover'
+  get '/discover',  to: 'discover#index', as: 'discover'
 
   resources :movies, only: [:index, :show]
   resources :parties, only: [:new, :create]

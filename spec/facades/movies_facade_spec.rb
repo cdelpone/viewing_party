@@ -1,15 +1,15 @@
 require 'rails_helper'
 # rspec spec/facades/movies_facade_spec.rb
 RSpec.describe 'movies facade' do
-  
+
   it 'returns top 40 movies', :vcr do
     expect(MoviesFacade.top_40_movies).to be_an(Array)
     expect(MoviesFacade.top_40_movies.count).to eq(40)
   end
 
   it 'can find a movie by title', :vcr do
-    expect(MoviesFacade.find_by_title("Fight Club")).to be_an(Array)
-    expect(MoviesFacade.find_by_title("Fight Club").first).to be_a Movie
+    expect(MoviesFacade.find_movie_by_title("Fight Club")).to be_an(Array)
+    expect(MoviesFacade.find_movie_by_title("Fight Club").first).to be_a Movie
   end
 
   it 'can find a movie by id', :vcr do
