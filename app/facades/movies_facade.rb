@@ -16,7 +16,7 @@ class MoviesFacade
     create_movies(results[0..2])
   end
 
-  def self.find_by_title(title)
+  def self.find_movie_by_title(title)
     page_1 = MoviesService.get_data("search/movie?query=#{title}")
     page_2 = MoviesService.get_data("search/movie?query=#{title}&page=2")
     results = page_1[:results] + page_2[:results]
