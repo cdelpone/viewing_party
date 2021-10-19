@@ -10,7 +10,7 @@
 
   <body>
     <main>
-      <%= button_to 'Log Out', logout_path, method: :delete %>
+      <%= button_to 'Log Out', logout_path, method: :delete if current_user %>
 
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, class: name %>
