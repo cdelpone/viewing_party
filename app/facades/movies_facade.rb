@@ -6,6 +6,16 @@ class MoviesFacade
     create_movies(results)
   end
 
+  def self.now_playing
+    results = MoviesService.get_data('movie/now_playing')[:results]
+    create_movies(results)
+  end
+
+  def self.similar_movies(id)
+    results = MoviesService.get_data("movie/#{id}/similar")[:results]
+    create_movies(results[0..2])
+  end
+
   def self.find_by_title(title)
     page_1 = MoviesService.get_data("search/movie?query=#{title}")
     page_2 = MoviesService.get_data("search/movie?query=#{title}&page=2")
@@ -26,9 +36,9 @@ class MoviesFacade
 
   def self.cast_by_id(id)
     parsed_cast_data = MoviesService.get_data("movie/#{id}/credits")
-    parsed_cast_data[:cast].map do |member|
+    parsed_cast_data[:cast][0..9].map do |member|
       CastMember.new(member)
-    end.take(10)
+    end
   end
 
   def self.reviews_by_id(id)

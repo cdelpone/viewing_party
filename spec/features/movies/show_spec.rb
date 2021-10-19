@@ -17,42 +17,31 @@ RSpec.describe 'movies show page' do
       @user = User.create!(email: "ruby@rubymail.com", password: "turing", password_confirmation: "turing")
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-
-      @movie_data = File.read('spec/fixtures/guardians_info.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/movie/118340?api_key=#{ENV['movie_key']}").
-      to_return(status: 200, body: @movie_data, headers: {})
-
-      @credit_data = File.read('spec/fixtures/guardians_credits.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/credits?api_key=#{ENV['movie_key']}").
-      to_return(status: 200, body: @credit_data, headers: {})
-
-      @reviews = File.read('spec/fixtures/guardians_reviews.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
-      to_return(status: 200, body: @reviews, headers: {})
-
       visit(movie_path(118340))
     end
 
-    it 'has a button to create a viewing party' do
+    it 'has a button to create a viewing party', :vcr do
       click_button("Create Viewing Party")
       expect(current_path).to eq(new_party_path)
     end
 
-    it 'has the movie info' do
-      parsed_data = JSON.parse(@movie_data)
-
-      expect(page).to have_content(parsed_data['title'])
-      expect(page).to have_content(parsed_data['vote_average'])
+    it 'has the movie info', :vcr do
+      expect(page).to have_content("Guardians of the Galaxy")
+      expect(page).to have_content("Vote Average: 7.9")
       expect(page).to have_content("2 hour(s) 1 minute(s)")
       expect(page).to have_content("Action, Science Fiction, Adventure")
-      expect(page).to have_content(parsed_data['overview'])
+      expect(page).to have_content("Overview: Light years from Earth, 26 years after being abducted, Peter Quill finds himself the prime target of a manhunt after discovering an orb wanted by Ronan the Accuser.")
       expect(page).to have_content("Chris Pratt as Peter Quill / Star-Lord")
       expect(page).to have_content("Author: Binawoo")
       expect(page).to have_content("10 Reviews")
       expect(page).to have_content("This movie was so AWESOME! I loved it all and i had a bad day before watching it but it turned it around. I love action packed movies and this was great.")
+    end
+
+    it 'lists similar movies', :vcr do
+      expect(page).to have_content("Recommended Movies")
+      expect(page).to have_content("Spider-Man")
+      click_link "Spider-Man"
+      expect(current_path).to eq(movie_path(557))
     end
   end
 
