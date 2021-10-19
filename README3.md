@@ -47,7 +47,7 @@ Then, run it using ruby (note: '$' is not typed).
    $ cd ./little-esty-shop
    ```
 3. Enable development caching:
-   ``` 
+   ```
    $ rails dev:cache
    ```
 4. Then enable server by entering the following into Terminal:
