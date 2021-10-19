@@ -132,6 +132,36 @@ RSpec.describe 'dashboard' do
       end
     end
 
+    it 'links to movie party show page' do
+      ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
+      ruby.friendships.create!(friend: @user)
+      party1 = ruby.parties.create!(date: "2018-01-02", time: "04:30:00 UST", movie_id: 118340, movie_title: "Guardians of the Galaxy")
+      @user.attendees.create!(party: party1, role: 1 )
+
+      @user.parties.reload
+      visit current_path
+
+      movie_data = File.read('spec/fixtures/guardians_info.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: movie_data, headers: {})
+
+      credit_data = File.read('spec/fixtures/guardians_credits.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/credits?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: credit_data, headers: {})
+
+      reviews = File.read('spec/fixtures/guardians_reviews.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: reviews, headers: {})
+
+      within '#parties' do
+        click_link "Guardians of the Galaxy"
+      end
+      expect(current_path).to eq(movie_path(118340))
+    end
+
     it 'shows the users name in bold for events they are not hosting' do
       python = User.create!(email: "python@pythonmail.com", password: "potato", password_confirmation: "potato")
       ruby   = User.create(email: "ruby@gmail.com", password: "potato", password_confirmation: "potato")
@@ -163,7 +193,6 @@ RSpec.describe 'dashboard' do
       party1 = ruby.parties.create!(date: "2018-01-02", time: "04:30:00 UST", movie_id: 1, movie_title: "Star Wars" )
       python.attendees.create!(party: party1, role: 1 )
 
-      # @user.parties.reload
       visit current_path
 
       within '#parties' do
