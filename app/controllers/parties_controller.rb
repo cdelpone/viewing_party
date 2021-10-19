@@ -13,7 +13,7 @@ class PartiesController < ApplicationController
       party.invite_friends_by_ids(included_friend_ids)
       redirect_to dashboard_path
     else
-      flash[:alert] = "Invalid input. Please try again."
+      flash[:alert] = 'Invalid input. Please try again.'
       redirect_to new_party_path(movie_params)
     end
   end
@@ -35,7 +35,7 @@ class PartiesController < ApplicationController
   def included_friend_ids
     keys = params.keys
     keys.find_all do |friend_id|
-      friend_id.to_i > 0 && params[friend_id] == '1'
+      friend_id.to_i.positive? && params[friend_id] == '1'
     end
   end
 end
