@@ -3,9 +3,9 @@ class CastMember
               :name,
               :character
 
-  def initialize(info)
-    @id = info[:id]
-    @name = info[:name]
-    @character = info[:character]
+  def initialize(params)
+    @id        = params[:id]
+    @name      = params[:name]
+    @character = params[:character]
   end
 end
