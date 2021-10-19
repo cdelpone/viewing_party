@@ -51,6 +51,10 @@ RSpec.describe 'movies index', type: :feature do
       stub_request(:get, "https://api.themoviedb.org/3/movie/19404/reviews?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: @reviews, headers: {})
 
+      now_playing = File.read('spec/fixtures/now_playing.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/now_playing?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: now_playing, headers: {})
 
       visit movies_path
     end
@@ -89,11 +93,6 @@ RSpec.describe 'movies index', type: :feature do
     end
 
     it 'has a button for now playing' do
-      now_playing = File.read('spec/fixtures/now_playing.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/movie/now_playing?api_key=#{ENV['movie_key']}").
-      to_return(status: 200, body: now_playing, headers: {})
-
       expect(page).to have_button('Find Now Playing')
       click_button('Find Now Playing')
       expect(current_path).to eq(movies_path)

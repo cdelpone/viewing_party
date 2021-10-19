@@ -33,6 +33,11 @@ RSpec.describe 'discover index', type: :feature do
       stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&query=Fight Club&page=2").
       to_return(status: 200, body: fc_response_2, headers: {})
 
+      now_playing = File.read('spec/fixtures/now_playing.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/now_playing?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: now_playing, headers: {})
+
       visit discover_path
     end
 
