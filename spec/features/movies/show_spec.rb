@@ -33,6 +33,16 @@ RSpec.describe 'movies show page' do
       stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
       to_return(status: 200, body: @reviews, headers: {})
 
+      similar_movies = File.read('spec/fixtures/similar_movies.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/118340/similar?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: similar_movies, headers: {})
+
+      spider_man = File.read('spec/fixtures/spider_man.json')
+
+      stub_request(:get, "https://api.themoviedb.org/3/movie/557?api_key=#{ENV['movie_key']}").
+      to_return(status: 200, body: spider_man, headers: {})
+
       visit(movie_path(118340))
     end
 
@@ -53,6 +63,13 @@ RSpec.describe 'movies show page' do
       expect(page).to have_content("Author: Binawoo")
       expect(page).to have_content("10 Reviews")
       expect(page).to have_content("This movie was so AWESOME! I loved it all and i had a bad day before watching it but it turned it around. I love action packed movies and this was great.")
+    end
+
+    it 'lists similar movies' do
+      expect(page).to have_content("Recommended Movies")
+      expect(page).to have_content("Spider-Man")
+      click_link "Spider-Man"
+      expect(current_path).to eq(movie_path(557))
     end
   end
 

@@ -39,6 +39,11 @@ RSpec.describe 'movies facade' do
 
     stub_request(:get, "https://api.themoviedb.org/3/movie/now_playing?api_key=#{ENV['movie_key']}").
     to_return(status: 200, body: now_playing, headers: {})
+
+    similar_movies = File.read('spec/fixtures/similar_movies.json')
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/118340/similar?api_key=#{ENV['movie_key']}").
+    to_return(status: 200, body: similar_movies, headers: {})
   end
 
   it 'returns top 40 movies' do
@@ -69,5 +74,10 @@ RSpec.describe 'movies facade' do
    it 'can return movies now playing' do
      expect(MoviesFacade.now_playing).to be_an(Array)
      expect(MoviesFacade.now_playing.count).to eq(20)
+   end
+
+   it 'can return similar movies' do
+     expect(MoviesFacade.similar_movies(118340)).to be_an(Array)
+     expect(MoviesFacade.similar_movies(118340).count).to eq(3)
    end
 end
