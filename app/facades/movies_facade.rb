@@ -1,8 +1,8 @@
 class MoviesFacade
   def self.top_40_movies
-    page_1 = MoviesService.get_data('movie/top_rated')
-    page_2 = MoviesService.get_data('movie/top_rated?page=2')
-    results = page_1[:results] + page_2[:results]
+    page1 = MoviesService.get_data('movie/top_rated')
+    page2 = MoviesService.get_data('movie/top_rated?page=2')
+    results = page1[:results] + page2[:results]
     create_movies(results)
   end
 
@@ -16,10 +16,10 @@ class MoviesFacade
     create_movies(results[0..2])
   end
 
-  def self.find_by_title(title)
-    page_1 = MoviesService.get_data("search/movie?query=#{title}")
-    page_2 = MoviesService.get_data("search/movie?query=#{title}&page=2")
-    results = page_1[:results] + page_2[:results]
+  def self.find_movie_by_title(title)
+    page1 = MoviesService.get_data("search/movie?query=#{title}")
+    page2 = MoviesService.get_data("search/movie?query=#{title}&page=2")
+    results = page1[:results] + page2[:results]
     create_movies(results)
   end
 

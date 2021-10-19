@@ -1,8 +1,10 @@
 class Party < ApplicationRecord
-  has_many :attendees
+  has_many :attendees, dependent: :destroy
 
-  validates_presence_of :date
-  validates_presence_of :time
+  validates :date, presence: true
+  validates :time, presence: true
+
+  delegate :email, to: :host, prefix: true
 
   def host?(user)
     user == host
@@ -10,17 +12,13 @@ class Party < ApplicationRecord
 
   def host
     User.joins(:attendees)
-        .where(attendees: {role: 0})
+        .where(attendees: { role: 0, party_id: id })
         .first
-  end
-
-  def host_email
-    host.email
   end
 
   def invited_guests
     User.joins(:attendees)
-        .where(attendees: {role: 1})
+        .where(attendees: { role: 1, party_id: id })
   end
 
   def invite_friends_by_ids(friend_ids)
