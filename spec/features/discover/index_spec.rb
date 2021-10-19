@@ -49,5 +49,11 @@ RSpec.describe 'discover index', type: :feature do
       expect(page).to have_content('Fight Club')
       expect(page).to have_content('Barrio Brawler')
     end
+
+    it 'has a button to movies now playing' do
+      expect(page).to have_button('Find Now Playing')
+      click_button('Find Now Playing')
+      expect(current_path).to eq(movies_path)
+    end
   end
 end

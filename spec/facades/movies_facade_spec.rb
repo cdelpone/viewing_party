@@ -35,6 +35,10 @@ RSpec.describe 'movies facade' do
     stub_request(:get, "https://api.themoviedb.org/3/movie/118340/reviews?api_key=#{ENV['movie_key']}").
     to_return(status: 200, body: reviews, headers: {})
 
+    now_playing = File.read('spec/fixtures/now_playing.json')
+
+    stub_request(:get, "https://api.themoviedb.org/3/movie/now_playing?api_key=#{ENV['movie_key']}").
+    to_return(status: 200, body: now_playing, headers: {})
   end
 
   it 'returns top 40 movies' do
@@ -61,4 +65,9 @@ RSpec.describe 'movies facade' do
     expect(MoviesFacade.reviews_by_id(118340)).to be_an(Array)
     expect(MoviesFacade.reviews_by_id(118340).first).to be_a Review
   end
+
+   it 'can return movies now playing' do
+     expect(MoviesFacade.now_playing).to be_an(Array)
+     expect(MoviesFacade.now_playing.count).to eq(20)
+   end
 end

@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
   def index
     if params[:movie_title]
       @movies = MoviesFacade.find_by_title(params[:movie_title])
+    elsif params[:now_playing]
+      @movies = MoviesFacade.now_playing
     else
       @movies = MoviesFacade.top_40_movies
     end
