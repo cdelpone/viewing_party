@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
         flash[:alert] = "Ya'll are already friends."
       elsif friend
         current_user.friendships.create(friend: friend)
-        current_user.reload
+        # current_user.reload
       else
         flash[:alert] = "Sorry, that's an imaginary friend."
       end
