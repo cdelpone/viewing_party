@@ -32,6 +32,7 @@
 - Team communication
 - Prioritizing goals/user stories
 - Time management
+
 More details can be found [here](https://backend.turing.edu/module3/misc/learning_goals)
 
 ### <ins>Setup</ins>
