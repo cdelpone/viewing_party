@@ -46,8 +46,10 @@ RSpec.describe 'movies index', type: :feature do
     end
 
     it 'has a movie search form', :vcr do
-      fill_in(:movie_title, with: 'Fight Club')
-      click_button('Find Movies')
+      within '#search-form' do
+        fill_in(:movie_title, with: 'Fight Club')
+        click_button('Find Movies')
+      end
       expect(current_path).to eq(movies_path)
       expect(page).to have_content('Fight Club')
       expect(page).to have_content('Barrio Brawler')
@@ -76,7 +78,7 @@ RSpec.describe 'movies index', type: :feature do
 
     describe 'dashboard page' do
       it 'can log out', :vcr do
-        click_button 'Log Out'
+        click_link 'Log Out'
         expect(current_path).to eq(root_path)
 
         visit dashboard_path

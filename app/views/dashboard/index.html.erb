@@ -1,44 +1,46 @@
-<h2>Welcome, <%= current_user.email %>!</h2>
+<div class="container-fluid">
 
-<%= button_to "Discover Movies", discover_path, method: :get %>
+  <h2>Welcome, <%= current_user.email %>!</h2>
 
-<section id='friends'>
-  <h4>Friends</h4>
-  <% if current_user.friends.empty? %>
-    <%= "You don't have any friends." %>
-  <% else %>
-    <% current_user.friends.each do |f| %>
-      <%= f.email %><br>
-    <% end %>
-  <% end %><br>
+  <%= button_to "Discover Movies", discover_path, method: :get %>
 
-  <%= form_with url: dashboard_path, method: :get, local: true do |f| %>
-    <%= f.label :email %><br>
-    <%= f.email_field :email, placeholder: "Friend's Email" %>
-    <%= f.submit "Add Friend" %>
-  <% end %>
-
-</section>
-
-<section id='parties'>
-  <h4>Parties</h4>
-  <% current_user.parties.each do |party| %>
-    <div class=<%"party-#{party.id}"%>>
-      <%= link_to party.movie_title, movie_path(party.movie_id) %><br>
-      <%= party.date.strftime("%A, %B %e, %Y") %> at <%= party.time.strftime("%I:%M%p") %><br><br>
-      <% if party.host?(current_user) %>
-        Hosting<br><br>
-      <% else %>
-        Host: <%= party.host_email %><br><br>
+  <section id='friends' class="top_space">
+    <h4>Friends</h4>
+    <% if current_user.friends.empty? %>
+      <%= "You don't have any friends." %>
+    <% else %>
+      <% current_user.friends.each do |f| %>
+        <%= f.email %><br>
       <% end %>
-      Attending:<br>
-      <% party.invited_guests.each do |guest| %>
-        <% if current_user.email == guest.email %>
-          <strong><%= guest.email %></strong><br>
+    <% end %><br>
+
+    <%= form_with url: dashboard_path, method: :get, local: true do |f| %>
+      <%= f.email_field :email, placeholder: "Friend's Email" %>
+      <%= f.submit "Add Friend" %>
+    <% end %>
+  </section>
+
+
+  <section class="row top_space" id='parties'>
+    <h4>Parties</h4>
+    <% current_user.parties.each do |party| %>
+      <div class="col-lg-3" "party-<% party.id %>" style="background-color: #e3f2fd; border: solid white">
+        <%= link_to party.movie_title, movie_path(party.movie_id) %><br>
+        <%= party.date.strftime("%A, %B %e, %Y") %> at <%= party.time.strftime("%I:%M%p") %><br><br>
+        <% if party.host?(current_user) %>
+          Hosting<br><br>
         <% else %>
-          <%= guest.email %><br>
+          Host: <%= party.host_email %><br><br>
         <% end %>
-      <% end %><br>
-    </div>
-  <% end %>
-</section>
+        Attending:<br>
+        <% party.invited_guests.each do |guest| %>
+          <% if current_user.email == guest.email %>
+            <strong><%= guest.email %></strong><br>
+          <% else %>
+            <%= guest.email %><br>
+          <% end %>
+        <% end %><br>
+      </div>
+    <% end %>
+  </section>
+</div>

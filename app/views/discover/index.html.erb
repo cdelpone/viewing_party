@@ -1,3 +1,11 @@
-<%= render partial: 'shared/top_movies_button' %>
-<%= render partial: 'shared/movie_search' %>
-<%= render partial: 'shared/now_playing_button' %>
+<div class="container">
+  <div class="mx-auto">
+    <div class="btn-group btn-group-justified">
+      <%= render partial: 'shared/top_movies_button' %>
+      <%= render partial: 'shared/now_playing_button' %>
+    </div>
+    <div id='search-form'>
+      <%= render partial: 'shared/movie_search' %>
+    </div>
+  </div>
+</div>

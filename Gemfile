@@ -17,6 +17,8 @@ gem 'bootsnap'
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'faraday'
+gem 'bootstrap', '~> 5.1.0'
+gem 'mini_racer'
 
 group :development, :test do
   gem 'pry'
@@ -28,7 +30,6 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop-rails'
-  gem 'travis'
 end
 
 group :test do
