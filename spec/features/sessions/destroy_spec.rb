@@ -14,7 +14,7 @@ RSpec.describe 'Destroy session', type: :feature do
 
   describe 'dashboard page' do
     it 'can log out' do
-      click_button 'Log Out'
+      click_link 'Log Out'
       expect(current_path).to eq(root_path)
 
       visit dashboard_path

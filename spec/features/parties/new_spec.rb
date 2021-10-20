@@ -88,7 +88,7 @@ RSpec.describe 'New Party Form' do
 
     describe 'dashboard page' do
       it 'can log out', :vcr do
-        click_button 'Log Out'
+        click_link 'Log Out'
         expect(current_path).to eq(root_path)
 
         visit dashboard_path
