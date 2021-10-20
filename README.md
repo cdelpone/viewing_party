@@ -101,7 +101,7 @@ More details can be found [here](https://backend.turing.edu/module3/misc/learnin
 
 - [Christina Delpone](https://github.com/cdelpone)
 - [Andrew Massey](https://github.com/acmassey3698)
-- [Michael Mattson](https://github.com/michaelmattson)
+- [Michael Mattson](https://github.com/michaelpmattson)
 
 
 
