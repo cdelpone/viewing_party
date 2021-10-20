@@ -1,6 +1,8 @@
 <%= render partial: 'shared/top_movies_button' %>
-<%= render partial: 'shared/movie_search' %>
 <%= render partial: 'shared/now_playing_button' %>
+<div id='search-form'>
+  <%= render partial: 'shared/movie_search' %>
+</div>
 
 <% @movies.each do |movie| %>
   <div id='movie-<%= movie.id %>'><%= link_to movie.title, movie_path(movie.id) %>  Vote Average: <%= movie.vote_average %></div>
