@@ -1,4 +1,4 @@
-# Viewing Party
+## [Viewing Party App](https://dry-caverns-51920.herokuapp.com/)
 [![Build Status][travis-image]][travis-url]
 
 ## Table of contents
